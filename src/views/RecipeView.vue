@@ -1,28 +1,23 @@
 <script setup lang="ts">
 
 import { useRoute } from 'vue-router'
-import { onMounted, watch } from 'vue'
+import { computed } from 'vue'
+import { useRecipeStore } from '@/stores/recipe'
 
 const route = useRoute()
 
-onMounted(() => console.log('Fetching data inside onMounted'))
+const recipeStore = useRecipeStore()
 
-watch(() => route.params.id, () => console.log('Fetching inside watch'), { immediate: true })
+const recipe = computed(() => recipeStore.getRecipeById(route.params.id as string))
 
 </script>
 
 <template>
-  <div>Recipe View {{ route.params.id }}</div>
-  <nav>
-    <ul>
-      <li>
-        <RouterLink :to="{name: 'recipe', params: {id: 1}}">Recipe 1</RouterLink>
-      </li>
-      <li>
-        <RouterLink :to="{name: 'recipe', params: {id: 3}}">Recipe 3</RouterLink>
-      </li>
-    </ul>
-  </nav>
+  <div>
+    <h1>{{ recipe }}</h1>
+    <p>{{ recipe }}</p>
+  </div>
+
 </template>
 
 <style scoped>
